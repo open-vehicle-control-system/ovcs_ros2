@@ -1,10 +1,9 @@
 {
-  "name": "ROS2 Remote Dev",
-  "image": "spin42/ovcs-ros2-ubnutu-24-04:latest",
+  "name": "ROS2 Development Container",
+  "image": "spin42/ovcs-ros2-ubnutu-24-04",
   "workspaceFolder": "/opt/ros2_ws/src/ovcs_ros2",
-  "mounts": [
-    "source=${localWorkspaceFolder},target=/opt/ros2_ws/src/ovcs_ros2,type=bind"
-  ],
- "overrideCommand": false,
- "updateContentCommand": "docker pull spin42/ovcs-ros2-ubnutu-24-04"
+  "workspaceMount": "source=remote-workspace,target=/opt/ros2_ws/src/ovcs_ros2,type=volume",
+  "mounts": [{ "source": "/run/udev", "target": "/run/udev", "type": "bind" }],
+  "overrideCommand": false,
+  "privileged": true
 }
