@@ -1,0 +1,10 @@
+{
+  "name": "ROS2 Remote Dev",
+  "image": "spin42/ovcs-ros2-ubnutu-24-04:latest",
+  "workspaceFolder": "/opt/ros2_ws/src/ovcs_ros2",
+  "mounts": [
+    "source=${localWorkspaceFolder},target=/opt/ros2_ws/src/ovcs_ros2,type=bind"
+  ],
+ "overrideCommand": false,
+ "updateContentCommand": "docker pull spin42/ovcs-ros2-ubnutu-24-04"
+}
