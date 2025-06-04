@@ -8,6 +8,7 @@
   <license>Apache-2.0</license>
 
   <depend>rclpy</depend>
+  <depend>cv_bridge</depend>
   <depend>launch</depend>
   <depend>launch_ros</depend>
   <depend version_gte="0.2">libcamera</depend>
