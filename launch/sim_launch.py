@@ -13,7 +13,7 @@ from launch_ros.actions import Node
 
 def generate_launch_description():
 
-    package_name='ovcs_ros2'
+    package_name='ovcs'
 
     rsp = IncludeLaunchDescription(
                 PythonLaunchDescriptionSource([os.path.join(

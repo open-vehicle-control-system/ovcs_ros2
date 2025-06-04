@@ -9,7 +9,7 @@ def generate_launch_description():
         IncludeLaunchDescription(
             PathJoinSubstitution([FindPackageShare('urdf_launch'), 'launch', 'display.launch.py']),
             launch_arguments={
-                'urdf_package': 'ovcs_ros2',
+                'urdf_package': 'ovcs',
                 'urdf_package_path': PathJoinSubstitution(['urdf', 'test/test.urdf'])
             }.items()
         )
