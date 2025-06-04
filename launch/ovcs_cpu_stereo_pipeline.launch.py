@@ -5,6 +5,20 @@ from launch_ros.actions import Node
 
 def generate_launch_description():
   return LaunchDescription([
+      Node(
+      package="ovcs_ros2",
+      executable="pi_camera_synchronizer",
+      name="pi_camera_synchronizer",
+      output="screen",
+      parameters=[],
+    ),
+    Node(
+      package="ovcs_ros2",
+      executable="disparity_image_publisher",
+      name="disparity_image_publisher",
+      output="screen",
+      parameters=[],
+    ),
     ComposableNodeContainer(
       name="ovcs_perception_container_right",
       namespace="stereo",
@@ -95,4 +109,4 @@ def generate_launch_description():
       ],
       output="screen"
     )
-  ])
+])
