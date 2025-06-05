@@ -2,8 +2,9 @@
   "name": "ROS2 Development Container",
   "image": "spin42/ovcs-ros2-ubnutu-24-04",
   "workspaceFolder": "/opt/ros2_ws/src/ovcs_ros2",
-  "workspaceMount": "source=remote-workspace,target=/opt/ros2_ws/src/ovcs_ros2,type=volume",
+  "workspaceMount": "source=${localWorkspaceFolder},target=/opt/ros2_ws/src/ovcs_ros2,type=bind,consistency=cached",
   "mounts": [{ "source": "/run/udev", "target": "/run/udev", "type": "bind" }],
   "overrideCommand": false,
-  "privileged": true
+  "privileged": true,
+  "runArgs": ["--network=host"]
 }
