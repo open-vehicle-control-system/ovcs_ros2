@@ -13,18 +13,6 @@ import yaml
 from camera_info_manager import CameraInfoManager
 from std_srvs.srv import Trigger
 
-
-# class MyCameraInfoManager(CameraInfoManager):
-#     def setCameraInfo(self, req, third):
-#       self.node.get_logger().info("CALLLEEDD-----------------------------------------------------------")
-#       self.node.get_logger().debug('SetCameraInfo received for ' + self.cname)
-#       self.camera_info = req.camera_info
-#       rsp = SetCameraInfo.Response()
-#       rsp.success = super().saveCalibration(req.camera_info, self.url, self.cname)
-#       if not rsp.success:
-#           rsp.status_message = 'Error storing camera calibration.'
-#       return rsp
-
 class PiCameraSynchronizedPublisher(Node):
 
   def __init__(self):
@@ -42,7 +30,7 @@ class PiCameraSynchronizedPublisher(Node):
     height = self.get_parameter("height").get_parameter_value().integer_value
     frame_rate = self.get_parameter("frame_rate").get_parameter_value().integer_value
     side = self.get_parameter("side").get_parameter_value().string_value
-    camera_calibration_url = f"file:///data/camera_{side}_{width}x{height}.yaml"
+    camera_calibration_url = f"file:///data/camera_{side}_{id}_{width}x{height}.yaml"
 
     custom_qos = QoSProfile(
         depth=10
