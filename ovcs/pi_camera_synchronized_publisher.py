@@ -15,7 +15,7 @@ from std_srvs.srv import Trigger
 
 class MyCameraInfoManager(CameraInfoManager):
     def setCameraInfo(self, req, third):
-      self.get_logger().info("CALLLEEDD-----------------------------------------------------------")
+      self.node.get_logger().info("CALLLEEDD-----------------------------------------------------------")
       self.node.get_logger().debug('SetCameraInfo received for ' + self.cname)
       self.camera_info = req.camera_info
       rsp = SetCameraInfo.Response()
