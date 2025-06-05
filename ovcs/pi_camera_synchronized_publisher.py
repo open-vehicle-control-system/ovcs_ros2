@@ -10,7 +10,7 @@ import socket
 from libcamera import controls
 import os
 import yaml
-from fixed_camera_info_manager import CameraInfoManager
+from ovcs.fixed_camera_info_manager import CameraInfoManager
 from std_srvs.srv import Trigger
 
 class PiCameraSynchronizedPublisher(Node):
