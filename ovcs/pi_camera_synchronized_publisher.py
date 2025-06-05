@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 import rclpy
 from rclpy.node import Node
-from sensor_msgs.msg import Image, CameraInfo
+from sensor_msgs.msg import Image, CameraInfo, SetCameraInfo, SetCameraInfoResponse
 from picamera2 import Picamera2
 from cv_bridge import CvBridge
 from rclpy.qos import QoSProfile
