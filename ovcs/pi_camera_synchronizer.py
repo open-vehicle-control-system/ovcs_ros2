@@ -6,7 +6,7 @@ import time
 
 class PiCameraSynchronizer(Node):
   def __init__(self):
-    super().__init__("pi_camera_synchronized")
+    super().__init__("pi_camera_synchronizer")
     self.get_logger().info("Starting PiCameraSynchronizer")
 
     self.sub_img_left = Subscriber(self, Image, "/stereo/left/unsynced/image_raw")
