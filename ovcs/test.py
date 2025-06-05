@@ -1,5 +1,5 @@
 import cv2
-print(cv2.cuda.getCudaEnabledDeviceCount())  # Should be > 0
+print(cv2.cuda.getCudaEnabledDeviceCount())
 
 import rclpy
 from rclpy.node import Node

@@ -14,16 +14,16 @@ from camera_info_manager import CameraInfoManager
 from std_srvs.srv import Trigger
 
 
-class MyCameraInfoManager(CameraInfoManager):
-    def setCameraInfo(self, req, third):
-      self.node.get_logger().info("CALLLEEDD-----------------------------------------------------------")
-      self.node.get_logger().debug('SetCameraInfo received for ' + self.cname)
-      self.camera_info = req.camera_info
-      rsp = SetCameraInfo.Response()
-      rsp.success = super().saveCalibration(req.camera_info, self.url, self.cname)
-      if not rsp.success:
-          rsp.status_message = 'Error storing camera calibration.'
-      return rsp
+# class MyCameraInfoManager(CameraInfoManager):
+#     def setCameraInfo(self, req, third):
+#       self.node.get_logger().info("CALLLEEDD-----------------------------------------------------------")
+#       self.node.get_logger().debug('SetCameraInfo received for ' + self.cname)
+#       self.camera_info = req.camera_info
+#       rsp = SetCameraInfo.Response()
+#       rsp.success = super().saveCalibration(req.camera_info, self.url, self.cname)
+#       if not rsp.success:
+#           rsp.status_message = 'Error storing camera calibration.'
+#       return rsp
 
 class PiCameraSynchronizedPublisher(Node):
 
@@ -55,7 +55,7 @@ class PiCameraSynchronizedPublisher(Node):
 
     self.raw_publisher = self.create_publisher(Image, raw_topic_name, custom_qos)
     self.camera_info_publisher = self.create_publisher(CameraInfo, camera_info_topic_name, custom_qos)
-    self.camera_info_manager = MyCameraInfoManager(self, cname=f"camera_{side}", url=camera_calibration_url, namespace=f"/stereo/{side}")
+    self.camera_info_manager = CameraInfoManager(self, cname=f"camera_{side}", url=camera_calibration_url, namespace=f"/stereo/{side}")
 
     self.cv_bridge = CvBridge()
     self.picam2 = Picamera2(id)
@@ -91,6 +91,7 @@ class PiCameraSynchronizedPublisher(Node):
   def timer_callback(self):
     image = self.picam2.capture_array()
     image_msg = self.cv_bridge.cv2_to_imgmsg(image, "bgr8")
+    self.camera_info_msg = self.camera_info_manager.getCameraInfo()
     self.raw_publisher.publish(image_msg)
     self.camera_info_msg.header = image_msg.header
     self.camera_info_publisher.publish(self.camera_info_msg)
