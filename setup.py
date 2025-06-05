@@ -32,12 +32,14 @@ setup(
     tests_require=["pytest"],
     entry_points={
         "console_scripts": [
-            "pi_camera_synchronized_publisher = ovcs.pi_camera_synchronized_publisher:main",
+            "pi_camera_stereo_publisher = ovcs.pi_camera_stereo_publisher:main",
+            "pi_camera_mono_publisher = ovcs.pi_camera_mono_publisher:main",
             "pi_camera_synchronizer = ovcs.pi_camera_synchronizer:main",
             "disparity_image_publisher = ovcs.disparity_image_publisher:main",
         ],
         "ros2_components": [
-            "PiCameraSynchronizedPublisher = ovcs.pi_camera_synchronized_publisher:PiCameraSynchronizedPublisher",
+            "PiCameraMonoPublisher = ovcs.pi_camera_mono_publisher:PiCameraMonoPublisher",
+            "PiCameraStereoPublisher = ovcs.pi_camera_stereo_publisher:PiCameraStereoPublisher",
             "PiCameraSynchronizer = ovcs.pi_camera_synchronizer:PiCameraSynchronizer",
             "DisparityImagePublisher = ovcs.disparity_image_publisher:DisparityImagePublisher"
         ],

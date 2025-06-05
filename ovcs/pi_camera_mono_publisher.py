@@ -13,10 +13,10 @@ import yaml
 from ovcs.fixed_camera_info_manager import CameraInfoManager
 from std_srvs.srv import Trigger
 
-class PiCameraSynchronizedPublisher(Node):
+class PiCameraMonoPublisher(Node):
 
   def __init__(self):
-    super().__init__("pi_camera_synchronized_publisher")
+    super().__init__("pi_camera_mono_publisher")
     self.declare_parameter("id", 0)
     self.declare_parameter("side", "left")
     self.declare_parameter("sync_mode", "none")
@@ -36,7 +36,7 @@ class PiCameraSynchronizedPublisher(Node):
         depth=10
     )
 
-    self.get_logger().info(f"Starting PiCameraSynchronizer for {side} camera with {width}x{height}@{frame_rate}")
+    self.get_logger().info(f"Starting PiCameraMonoPublisher for {side} camera with {width}x{height}@{frame_rate}")
 
     raw_topic_name = f"/stereo/{side}/unsynced/image_raw"
     camera_info_topic_name = f"/stereo/{side}/unsynced/camera_info"
@@ -86,7 +86,7 @@ class PiCameraSynchronizedPublisher(Node):
 
 def main(args=None):
   rclpy.init(args=args)
-  node = PiCameraSynchronizedPublisher()
+  node = PiCameraMonoPublisher()
 
   try:
       rclpy.spin(node)
