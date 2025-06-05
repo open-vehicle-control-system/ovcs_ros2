@@ -68,7 +68,10 @@ def generate_launch_description():
           plugin="stereo_image_proc::DisparityNode",
           parameters=[{
           }],
-          extra_arguments=[{"use_intra_process_comms": True}],
+          extra_arguments=[
+            {"use_intra_process_comms": True},
+            {"log_level": "DEBUG"}
+          ],
           namespace="stereo",
           name="disparity_node",
           remappings=[
