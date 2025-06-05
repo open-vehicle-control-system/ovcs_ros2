@@ -20,7 +20,7 @@ class MyCameraInfoManager(CameraInfoManager):
       self.node.get_logger().debug('SetCameraInfo received for ' + self.cname)
       self.camera_info = req.camera_info
       rsp = SetCameraInfo.Response()
-      rsp.success = self.saveCalibration(req.camera_info, self.url, self.cname)
+      rsp.success = super().saveCalibration(req.camera_info, self.url, self.cname)
       if not rsp.success:
           rsp.status_message = 'Error storing camera calibration.'
       return rsp
