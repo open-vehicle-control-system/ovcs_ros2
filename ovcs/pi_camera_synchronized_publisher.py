@@ -10,6 +10,7 @@ from libcamera import controls
 import os
 import yaml
 from camera_info_manager import CameraInfoManager
+from std_srvs.srv import Trigger
 
 class PiCameraSynchronizedPublisher(Node):
 
@@ -17,7 +18,7 @@ class PiCameraSynchronizedPublisher(Node):
     super().__init__("pi_camera_synchronized_publisher")
     self.declare_parameter("id", 0)
     self.declare_parameter("side", "left")
-    self.declare_parameter("sync_mode", "server")
+    self.declare_parameter("sync_mode", "none")
     self.declare_parameter("width", 1024)
     self.declare_parameter("height", 768)
     self.declare_parameter("frame_rate", 40)
@@ -41,16 +42,20 @@ class PiCameraSynchronizedPublisher(Node):
 
     self.raw_publisher = self.create_publisher(Image, raw_topic_name, custom_qos)
     self.camera_info_publisher = self.create_publisher(CameraInfo, camera_info_topic_name, custom_qos)
-    self.camera_info_manager = CameraInfoManager(self, url=camera_calibration_url)
+    self.camera_info_manager = CameraInfoManager(self, cname=f"camera_{side}", url=camera_calibration_url, namespace=f"/stereo/{side}")
 
     self.cv_bridge = CvBridge()
     self.picam2 = Picamera2(id)
 
-    sync_mode = controls.rpi.SyncModeEnum.Server if sync_mode == "server" else controls.rpi.SyncModeEnum.Client
+    sync_mode_ = controls.rpi.SyncModeEnum.Off
+    if sync_mode == "server":
+      sync_mode_ = controls.rpi.SyncModeEnum.Server
+    elif sync_mode == "client":
+      sync_mode_ = controls.rpi.SyncModeEnum.Client
 
     config0 = self.picam2.create_video_configuration(
         main={"size": (width, height), "format": "RGB888"},
-        controls={"FrameRate": frame_rate, "SyncMode": sync_mode},
+        controls={"FrameRate": frame_rate, "SyncMode": sync_mode_},
         buffer_count=4
     )
     self.picam2.configure(config0)
@@ -61,10 +66,11 @@ class PiCameraSynchronizedPublisher(Node):
 
     self.camera_info_msg = self.camera_info_manager.getCameraInfo()
 
-    self.get_logger().info("Wait for synchronization...")
-    req = self.picam2.capture_sync_request()
-    self.get_logger().info(f"Synchronization error: {req.get_metadata()['SyncTimer']}")
-    req.release()
+    if sync_mode_ != controls.rpi.SyncModeEnum.Off:
+      self.get_logger().info("Wait for synchronization...")
+      req = self.picam2.capture_sync_request()
+      self.get_logger().info(f"Synchronization error: {req.get_metadata()['SyncTimer']}")
+      req.release()
 
     timer_period = 1/frame_rate
     self.timer = self.create_timer(timer_period, self.timer_callback)
