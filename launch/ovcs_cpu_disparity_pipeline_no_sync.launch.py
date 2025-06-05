@@ -6,7 +6,7 @@ from launch_ros.actions import Node
 def generate_launch_description():
   return LaunchDescription([
     ComposableNodeContainer(
-      name="ovcs_perception_container_right",
+      name="ovcs_disparity_container",
       namespace="stereo",
       package="rclcpp_components",
       executable="component_container_mt",
@@ -77,8 +77,8 @@ def generate_launch_description():
             ("left/image_rect/camera_info", "left/camera_info"),
             ("right/image_rect/camera_info", "right/camera_info")
           ]
-        ),
+        )
       ],
       output="screen"
     )
-  ])
+])
