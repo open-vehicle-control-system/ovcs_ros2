@@ -12,6 +12,18 @@ import yaml
 from camera_info_manager import CameraInfoManager
 from std_srvs.srv import Trigger
 
+
+class MyCameraInfoManager(CameraInfoManager):
+    def setCameraInfo(self, req, third):
+      self.get_logger().info("CALLLEEDD-----------------------------------------------------------")
+      self.node.get_logger().debug('SetCameraInfo received for ' + self.cname)
+      self.camera_info = req.camera_info
+      rsp = SetCameraInfo.Response()
+      rsp.success = saveCalibration(req.camera_info, self.url, self.cname)
+      if not rsp.success:
+          rsp.status_message = 'Error storing camera calibration.'
+      return rsp
+
 class PiCameraSynchronizedPublisher(Node):
 
   def __init__(self):
@@ -42,7 +54,7 @@ class PiCameraSynchronizedPublisher(Node):
 
     self.raw_publisher = self.create_publisher(Image, raw_topic_name, custom_qos)
     self.camera_info_publisher = self.create_publisher(CameraInfo, camera_info_topic_name, custom_qos)
-    self.camera_info_manager = CameraInfoManager(self, cname=f"camera_{side}", url=camera_calibration_url, namespace=f"/stereo/{side}")
+    self.camera_info_manager = MyCameraInfoManager(self, cname=f"camera_{side}", url=camera_calibration_url, namespace=f"/stereo/{side}")
 
     self.cv_bridge = CvBridge()
     self.picam2 = Picamera2(id)
